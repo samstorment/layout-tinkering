@@ -1,0 +1,12 @@
+---
+import Header from "../header/Header.astro"
+import Alert from "./Alert.svelte";
+---
+
+<div id="top" class="backdrop-blur sticky top-0 font-semibold w-[100vw] z-50">
+    <Alert client:idle />
+    <Header />
+</div>
+
+
+<script src="./resize.ts"></script>

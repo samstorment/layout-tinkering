@@ -1,0 +1,38 @@
+---
+import SidebarSection from "./SidebarSection.astro";
+
+---
+
+<aside class="relative border-r border-slate-700">
+    <nav class="sticky p-4 w-[200px]
+        top-[calc(var(--nav-height))] 
+        h-[calc(100vh-var(--nav-height))] 
+        overflow-y-auto"
+    >
+        <ul class="flex flex-col gap-4">
+            <li>
+                <SidebarSection title="Section 1" links={[
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                ]}></SidebarSection>
+            </li>
+            <li>
+                <SidebarSection title="Section 2" links={[
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                ]}></SidebarSection>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
