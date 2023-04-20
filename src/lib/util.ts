@@ -1,3 +1,5 @@
+import { getContext, setContext } from "svelte";
+
 export function isInViewport(element: HTMLElement) {
 
     const rect = element.getBoundingClientRect();
@@ -39,3 +41,58 @@ export function isIntersecting(element1: HTMLElement, element2: HTMLElement) {
     const b = element2.getBoundingClientRect();
     return a.bottom > b.top && a.right > b.left && a.top < b.bottom && a.left < b.right
 }
+
+export function setService<T>(key: string | Symbol, service: T): T {
+    setContext(key, service);
+    return service;
+}
+
+export function getService<T>(key: string | Symbol): () => T { return () => getContext(key) as T }
+
+export function defineService<T>(key: string | Symbol = Symbol()): [() => T, (service: T) => T] {
+    return [getService<T>(key), (service: T) => { setService(key, service); return service }]
+}
+
+
+export const docs = [
+    {
+        text: "Tailwind Docs",
+        href: "https://tailwindcss.com/docs/installation",
+    },
+    {
+        text: "Astro Docs",
+        href: "https://docs.astro.build/en/getting-started",
+    },
+    {
+        text: "Resize Observer",
+        href: "https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver",
+    },
+    {
+        text: "Stack Overflow",
+        href: "https://stackoverflow.com",
+    },
+    {
+        text: "SvelteKit Documentation",
+        href: "https://kit.svelte.dev/",
+    },
+    {
+        text: "Solid",
+        href: "https://www.solidjs.com/",
+    },
+    {
+        text: "YouTube",
+        href: "https://www.youtube.com/",
+    },
+    {
+        text: "Twitter",
+        href: "https://twitter.com/",
+    },
+    {
+        text: "Advent of Code",
+        href: "https://adventofcode.com/",
+    },
+    {
+        text: "Wikipedia: The Free Encyclopedia",
+        href: "https://en.wikipedia.org/wiki/Wikipedia",
+    }
+];

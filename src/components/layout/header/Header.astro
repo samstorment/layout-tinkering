@@ -1,49 +1,9 @@
 ---
-import ChipBar from "./ChipBar.svelte";
+import ChipBar from "./_ChipBar.svelte";
+import Chip from "./Chip.svelte";
+import Chips from "./Chips.svelte";
 import HeaderLink from "./HeaderLink.astro";
-
-const docs = [
-    {
-        text: "Tailwind Docs",
-        href: "https://tailwindcss.com/docs/installation",
-    },
-    {
-        text: "Astro Docs",
-        href: "https://docs.astro.build/en/getting-started",
-    },
-    {
-        text: "Resize Observer",
-        href: "https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver",
-    },
-    {
-        text: "Stack Overflow",
-        href: "https://stackoverflow.com",
-    },
-    {
-        text: "SvelteKit Documentation",
-        href: "https://kit.svelte.dev/",
-    },
-    {
-        text: "Solid",
-        href: "https://www.solidjs.com/",
-    },
-    {
-        text: "YouTube",
-        href: "https://www.youtube.com/",
-    },
-    {
-        text: "Twitter",
-        href: "https://twitter.com/",
-    },
-    {
-        text: "Advent of Code",
-        href: "https://adventofcode.com/",
-    },
-    {
-        text: "Wikipedia: The Free Encyclopedia",
-        href: "https://en.wikipedia.org/wiki/Wikipedia",
-    }
-];
+import NiceBar from "./NiceBar.svelte";
 ---
 
 <header id="page-header">
@@ -63,5 +23,7 @@ const docs = [
         </nav>
     </div>
 
-    <ChipBar links={docs} client:load />
+    <!-- <ChipBar links={docs} client:idle /> -->
+        
+    <NiceBar client:load />
 </header>
