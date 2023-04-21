@@ -1,127 +1,16 @@
 ---
-import Chips from "@components/layout/header/Chips.svelte";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Chip from "@components/layout/header/Chip.svelte";
 import NiceBar from "@components/layout/header/NiceBar.svelte";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VeryTallVerticalContent from "./_VeryTallVerticalContent.svelte";
 ---
 
 
 <BaseLayout title="Home">
-	<div class="m-4 border border-b-0 border-slate-700 flex flex-col">
-		<h1>Hello!</h1>
-		<p>How are you?</p>
-		<NiceBar client:load />
+	<div class="p-4 border-b border-slate-700">
+		<h1>The Home Page!</h1>
 	</div>
-	<h1>page</h1>
 
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p id="cool">cool</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p id="wow">WOWOWOWOW</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
-	<p>content</p>
+	<NiceBar client:idle />
+
+	<VeryTallVerticalContent client:idle />
 </BaseLayout>
-

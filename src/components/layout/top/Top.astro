@@ -3,9 +3,14 @@ import Header from "../header/Header.astro"
 import Alert from "./Alert.svelte";
 ---
 
-<div id="top" class="backdrop-blur sticky top-0 font-semibold w-[100vw] z-50">
+
+<div id="top-sticky" class="backdrop-blur sticky top-0 font-semibold w-[100vw] z-[9999]">
     <Alert client:idle />
     <Header />
+</div>
+
+<div id="top-scrollable">
+    <slot />
 </div>
 
 

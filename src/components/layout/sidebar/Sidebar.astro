@@ -3,10 +3,10 @@ import SidebarSection from "./SidebarSection.astro";
 
 ---
 
-<aside class="relative border-r border-slate-700">
+<aside class="relative border-x border-slate-700">
     <nav class="sticky p-4 w-[200px]
-        top-[calc(var(--nav-height))] 
-        h-[calc(100vh-var(--nav-height))] 
+        top-[calc(var(--top-height))] 
+        h-[calc(100vh-var(--top-height))]
         overflow-y-auto"
     >
         <ul class="flex flex-col gap-4">
@@ -23,6 +23,50 @@ import SidebarSection from "./SidebarSection.astro";
             </li>
             <li>
                 <SidebarSection title="Section 2" links={[
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                ]}></SidebarSection>
+            </li>
+            <li>
+                <SidebarSection title="Section 3" links={[
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                ]}></SidebarSection>
+            </li>
+            <li>
+                <SidebarSection title="Section 4" links={[
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                ]}></SidebarSection>
+            </li>
+            <li>
+                <SidebarSection title="Section 5" links={[
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                    { href: "#wow", text: "Hello!" },
+                ]}></SidebarSection>
+            </li>
+            <li>
+                <SidebarSection title="Section 6" links={[
                     { href: "#wow", text: "Hello!" },
                     { href: "#wow", text: "Hello!" },
                     { href: "#wow", text: "Hello!" },

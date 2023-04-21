@@ -109,11 +109,10 @@
         showRight = !lastIsVisible(tx);
         
         if (!showRight) {
-            translate = translate + distanceToEnd(getLastItem());
-            return true;
+            translate += distanceToEnd(getLastItem());
         }
         
-        return false;
+        return !showRight;
     }
 
     function isAtEnd(li: HTMLLIElement) {
@@ -228,3 +227,15 @@
         </div>
     {/if}
 </div>
+
+
+
+<style>
+    .chip-right {
+        border-left: 1px solid red;
+    }
+
+    .chip-left {
+        border-right: 1px solid red;
+    }
+</style>
