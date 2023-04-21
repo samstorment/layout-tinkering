@@ -20,12 +20,12 @@ const {
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="bg-slate-900 text-slate-400">
-		<div class="absolute min-w-full">
+	<body class="bg-slate-900 text-slate-400 overflow-x-hidden">
+		<div class="relative">
 			<Top />
 			<div id="content" class="flex">
 				<Sidebar />
-				<main class="flex-1">
+				<main class="flex-1 min-w-0">
 					<slot />
 				</main>
 			</div>

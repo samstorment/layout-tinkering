@@ -1,5 +1,3 @@
-import { getContext, setContext } from "svelte";
-
 export function isInViewport(element: HTMLElement) {
 
     const rect = element.getBoundingClientRect();
@@ -18,12 +16,6 @@ export function isIntersectingEnd(parent: HTMLElement, child: HTMLElement) {
     return c.left < p.right && c.right > p.right;
 }
 
-export function isOverflownEnd(parent: HTMLElement, child: HTMLElement) {
-    const c = child.getBoundingClientRect();
-    const p = parent.getBoundingClientRect();
-    return c.left > p.right;
-}
-
 export function isIntersectingStart(parent: HTMLElement, child: HTMLElement) {
     const c = child.getBoundingClientRect();
     const p = parent.getBoundingClientRect();
@@ -36,21 +28,16 @@ export function isOverflownStart(parent: HTMLElement, child: HTMLElement) {
     return c.right < p.left;
 }
 
+export function isOverflownEnd(parent: HTMLElement, child: HTMLElement) {
+    const c = child.getBoundingClientRect();
+    const p = parent.getBoundingClientRect();
+    return c.left > p.right;
+}
+
 export function isIntersecting(element1: HTMLElement, element2: HTMLElement) {
     const a = element1.getBoundingClientRect();
     const b = element2.getBoundingClientRect();
     return a.bottom > b.top && a.right > b.left && a.top < b.bottom && a.left < b.right
-}
-
-export function setService<T>(key: string | Symbol, service: T): T {
-    setContext(key, service);
-    return service;
-}
-
-export function getService<T>(key: string | Symbol): () => T { return () => getContext(key) as T }
-
-export function defineService<T>(key: string | Symbol = Symbol()): [() => T, (service: T) => T] {
-    return [getService<T>(key), (service: T) => { setService(key, service); return service }]
 }
 
 
