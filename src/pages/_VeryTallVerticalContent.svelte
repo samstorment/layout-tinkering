@@ -58,7 +58,7 @@
             <p>content</p>
             <p>content</p>
             <p>content</p>
-            <p id="cool">cool</p>
+            <p id="scroll-to-different-id">You scrolled to different id</p>
             <p>content</p>
             <p>content</p>
             <p>content</p>
@@ -88,7 +88,7 @@
             <p>content</p>
             <p>content</p>
             <p>content</p>
-            <p id="wow">WOWOWOWOW</p>
+            <p id="scroll-to-id">You scrolled to id</p>
             <p>content</p>
             <p>content</p>
             <p>content</p>

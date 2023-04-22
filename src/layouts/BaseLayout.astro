@@ -3,6 +3,7 @@ import '@styles/global.css';
 import Sidebar from '@components/layout/sidebar/Sidebar.astro';
 import Top from '@components/layout/top/Top.astro';
 import { docs } from '@lib/util';
+import Toop from '@components/layout/top/Toop.svelte';
 
 interface Props {
     title?: string,
@@ -23,7 +24,7 @@ const {
 	</head>
 	<body class="bg-slate-900 text-slate-400 overflow-x-hidden">
 		<div class="relative">
-			<Top>
+			<Toop client:idle>
 				<div class="p-4 border-b border-slate-700">
 					<p>Here's a scrollable subsection below the top!</p>
 					<p class="mb-4">It also has content that changes height based on screen width!</p>
@@ -35,7 +36,7 @@ const {
 						))}
 					</ul>
 				</div>
-			</Top>
+			</Toop>
 			<div id="body" class="flex">
 				<Sidebar />
 					<div class="flex flex-col flex-1 min-w-0">

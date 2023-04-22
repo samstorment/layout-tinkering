@@ -39,11 +39,19 @@
     $: if (translate > 0) {
         translate = 0;
     }
+
+    // debug info
+    $: if (translate <= 0) {
+        setTimeout(() => {
+            container = container;
+        }, 200);
+    }
     
-    
+    let showButtonBorders = false;
+    let id = Math.floor(Math.random() * Date.now());
+
     onMount(() => {
 
-        
         const observer = new ResizeObserver(entries => {
             container = container;
             
@@ -67,7 +75,7 @@
             const li = e as HTMLLIElement;
 
             li.addEventListener('focusin', e => {
-                if (tooSmall()) return;
+                if (isSmall) return;
 
                 container.scrollLeft = 0;
 
@@ -205,7 +213,7 @@
         return Array.from(list.children) as Array<HTMLLIElement>;
     }
 
-    const tooSmall = () => container.getBoundingClientRect().width <= 400;
+    const tooSmall = () => container.getBoundingClientRect().width <= 350;
 
     const getFirstItem = () => list.firstElementChild as HTMLLIElement;
     const getLastItem = () => list.lastElementChild as HTMLLIElement;
@@ -215,13 +223,24 @@
 </script>
 
 {#if container}
-    <div class="border-b border-slate-700 p-2 flex gap-2" transition:fly={{x: -300}}>
+<div class="p-2 border-b border-slate-700">
+    <div class="flex gap-2 max-sm:flex-col" transition:fly={{x: -300}}>
         <span>Scroll: {container.scrollWidth}</span>
         <span>Offset: {container.offsetWidth}</span>
         <span>Overflow: {overflow}</span>
         <span>Translate: {translate.toFixed(2)}</span>
         <span>Scroll Left: {container.scrollLeft}</span>
     </div>
+    <p class="my-1 text-slate-500 text-sm">
+        Scrollable chip bar uses <code class="bg-slate-800 p-1 rounded text-xs">transform: translateX()</code> to simulate scrolling. The bar becomes a normal scrollbar when container is 350px or less. Buttons are hidden if all content can be displayed. Tab can be used to move to focussable elements in the scroll bar.
+    </p>
+    {#if !isSmall}
+        <div class="flex items-center gap-2">
+            <label for={`show-borders-${id}`}>Show Button Borders</label>
+            <input type="checkbox" id={`show-border-${id}`} class="aspect-square w-4" bind:checked={showButtonBorders} />
+        </div>
+    {/if}
+</div>
 {/if}
 
 <div class="chip-query-container">
@@ -236,6 +255,7 @@
             <div
                 transition:fly={{ x: -100 }}
                 class="chip-left absolute top-0 left-0 z-50 h-full flex justify-start items-center bg-gradient-to-l from-transparent from-5% via-slate-900/90 via-30%  to-slate-900"
+                class:showButtonBorders
                 style={`width: ${buttonWidth}px`}
                 on:introstart={() => leftButton.disabled = false}
                 on:outrostart={() => leftButton.disabled = true}
@@ -271,6 +291,7 @@
                 transition:fly={{ x: 100 }}
                 class="chip-right absolute top-0 right-0 z-50 h-full flex justify-end items-center bg-gradient-to-r from-transparent from-5% via-slate-900/70 via-30%  to-slate-900"
                 style={`width: ${buttonWidth}px`}
+                class:showButtonBorders
                 bind:this={right}
                 on:introstart={() => rightButton.disabled = false}
                 on:outrostart={() => rightButton.disabled = true}
@@ -291,11 +312,11 @@
 
 
 <style>
-    .chip-right {
+    .chip-right.showButtonBorders {
         border-left: 1px solid red;
     }
 
-    .chip-left {
+    .chip-left.showButtonBorders {
         border-right: 1px solid red;
     }
     
@@ -303,7 +324,7 @@
         container: chips-query / inline-size;
     }
 
-    @container chips-query (max-width: 400px) {
+    @container chips-query (max-width: 350px) {
         .chip-container {
             overflow-x: auto;
             scroll-padding-left: 12px;
