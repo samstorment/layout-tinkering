@@ -7,7 +7,8 @@ const topResizeObserver = new ResizeObserver((entries) => {
         const stickyHeight = topSticky.getBoundingClientRect().height;
         const scrollableHeight = topScrollable.getBoundingClientRect().height;        
         document.documentElement.style.setProperty("--top-height", `${stickyHeight + scrollableHeight}px`);
-    
+        document.documentElement.style.setProperty("--sticky-top-height", `${stickyHeight}px`);
+
         topIntersectionObserver.unobserve(topSticky);
         topIntersectionObserver = createTopIntersectionObserver();
     }

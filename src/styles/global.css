@@ -1,5 +1,6 @@
 :root {
     --top-height: 55px;
+    --sticky-top-height: 55px;
 }
 
 *,

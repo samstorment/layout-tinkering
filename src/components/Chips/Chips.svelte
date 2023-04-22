@@ -25,6 +25,11 @@
     let showRight = false;
 
     let translate = 0;
+
+    let transitionDuration = 150;
+
+    let isSmall = false;
+
     $: showLeft = translate != 0;
 
     $: if (container) {
@@ -35,12 +40,21 @@
         translate = 0;
     }
     
+    
     onMount(() => {
+
         
         const observer = new ResizeObserver(entries => {
             container = container;
-
+            
             clearTimeout(resizeTimeout);
+
+            if (tooSmall()) {
+                handleShrink();
+                return;
+            } else {
+                handleGrow();
+            }
 
             resizeTimeout = setTimeout(() => {
                 adjust();
@@ -53,6 +67,8 @@
             const li = e as HTMLLIElement;
 
             li.addEventListener('focusin', e => {
+                if (tooSmall()) return;
+
                 container.scrollLeft = 0;
 
                 clearTimeout(focusTimeout);
@@ -70,12 +86,55 @@
             });
         });
 
+        // for debug info
+        container.addEventListener('scroll', _ => container = container);
+
         return () => {
             observer.disconnect();
             clearTimeout(focusTimeout);
             clearTimeout(resizeTimeout);
         }
     });
+
+    async function handleShrink() {
+        // already small so we do nothing
+        if (isSmall) return;
+
+        console.log("WE SHRUNK!!!");
+
+        // container.style.scrollBehavior = "auto";
+
+        isSmall = true;
+        transitionDuration = 0;
+        let scrollLeft = -translate;
+        translate = 0;
+
+        // wait for translate to finish before updating scroll left
+        await tick();
+
+        container.scrollLeft = scrollLeft;
+    }
+
+    async function handleGrow() {
+        // already big so we return
+        if (!isSmall) return;
+
+        console.log("WE GREW!!!");
+
+        isSmall = false;
+        transitionDuration = 0;
+
+        if (container.scrollLeft !== 0) {
+            let tx = -container.scrollLeft;
+            container.scrollLeft = 0;
+            translate = tx;
+        }
+
+        // wait for the translation to finish before applying the updated duration
+        await tick();
+
+        transitionDuration = 150;
+    }
 
     function lastIsVisible(offset = 0) {
         const l = getLastItem().getBoundingClientRect();
@@ -146,6 +205,8 @@
         return Array.from(list.children) as Array<HTMLLIElement>;
     }
 
+    const tooSmall = () => container.getBoundingClientRect().width <= 400;
+
     const getFirstItem = () => list.firstElementChild as HTMLLIElement;
     const getLastItem = () => list.lastElementChild as HTMLLIElement;
     const getEndItem = () => getListItems().find(isAtEnd);
@@ -153,79 +214,78 @@
 
 </script>
 
-<!-- {#if container}
+{#if container}
     <div class="border-b border-slate-700 p-2 flex gap-2" transition:fly={{x: -300}}>
         <span>Scroll: {container.scrollWidth}</span>
         <span>Offset: {container.offsetWidth}</span>
         <span>Overflow: {overflow}</span>
         <span>Translate: {translate.toFixed(2)}</span>
-        <span>Last Size: {lastSize}</span>
+        <span>Scroll Left: {container.scrollLeft}</span>
     </div>
-{/if} -->
+{/if}
 
+<div class="chip-query-container">
+    <div 
+        class="chip-container flex-1 overflow-hidden relative" 
+        tabindex="-1"
+        style={`padding: ${padding}px`}
+        bind:this={container}
+    >    
 
-
-<div 
-    id="chip-container" 
-    class="flex-1 overflow-hidden relative" 
-    tabindex="-1"
-    style={`padding: ${padding}px`}
-    bind:this={container}
->    
-
-    {#if showLeft}
-        <div
-            transition:fly={{ x: -100 }}
-            class="chip-left absolute top-0 left-0 z-50 h-full flex justify-start items-center bg-gradient-to-l from-transparent from-5% via-slate-900/90 via-30%  to-slate-900"
-            style={`width: ${buttonWidth}px`}
-            on:introstart={() => leftButton.disabled = false}
-            on:outrostart={() => leftButton.disabled = true}
-            bind:this={left}
-        >
-            <button
-                type="button"
-                class={`p-4 flex justify-center items-center rounded-full border border-slate-700 bg-slate-900/75 w-8 h-8 ml-4`}
-                on:click={leftClick}
-                bind:this={leftButton}
+        {#if showLeft}
+            <div
+                transition:fly={{ x: -100 }}
+                class="chip-left absolute top-0 left-0 z-50 h-full flex justify-start items-center bg-gradient-to-l from-transparent from-5% via-slate-900/90 via-30%  to-slate-900"
+                style={`width: ${buttonWidth}px`}
+                on:introstart={() => leftButton.disabled = false}
+                on:outrostart={() => leftButton.disabled = true}
+                bind:this={left}
             >
-                &lt;
-            </button>
-        </div>
-    {/if}
+                <button
+                    type="button"
+                    class={`p-4 flex justify-center items-center rounded-full border border-slate-700 bg-slate-900/75 w-8 h-8 ml-4`}
+                    on:click={leftClick}
+                    bind:this={leftButton}
+                >
+                    &lt;
+                </button>
+            </div>
+        {/if}
 
-    <div id="chip-scroller" bind:this={scroller} 
-        class="flex transition transform ease-in-out items-center relative"
-        style={`transform: translateX(${translate}px);`}
-    >
-        <ul 
-            class="flex gap-3 w-fit" 
-            style={`gap: ${gap}px`}
-            bind:this={list}
+        <div id="chip-scroller" bind:this={scroller} 
+            class="flex transition transform ease-in-out items-center relative"
+            style={`transform: translateX(${translate}px); transition-duration: ${transitionDuration}ms;`}
         >
-            <slot />
-        </ul>
+            <ul 
+                class="flex gap-3 w-fit" 
+                style={`gap: ${gap}px`}
+                bind:this={list}
+            >
+                <slot />
+            </ul>
+        </div>
+
+        
+        {#if showRight}
+            <div
+                transition:fly={{ x: 100 }}
+                class="chip-right absolute top-0 right-0 z-50 h-full flex justify-end items-center bg-gradient-to-r from-transparent from-5% via-slate-900/70 via-30%  to-slate-900"
+                style={`width: ${buttonWidth}px`}
+                bind:this={right}
+                on:introstart={() => rightButton.disabled = false}
+                on:outrostart={() => rightButton.disabled = true}
+            >
+                <button
+                    type="button"
+                    class={`p-4 flex justify-center items-center rounded-full border border-slate-700 bg-slate-900/90 w-8 h-8 mr-4`}
+                    on:click={rightClick}
+                    bind:this={rightButton}
+                >
+                    &gt;
+                </button>
+            </div>
+        {/if}
     </div>
-
-    
-    {#if showRight}
-        <div
-            transition:fly={{ x: 100 }}
-            class="chip-right absolute top-0 right-0 z-50 h-full flex justify-end items-center bg-gradient-to-r from-transparent from-5% via-slate-900/70 via-30%  to-slate-900"
-            style={`width: ${buttonWidth}px`}
-            bind:this={right}
-            on:introstart={() => rightButton.disabled = false}
-            on:outrostart={() => rightButton.disabled = true}
-        >
-            <button
-                type="button"
-                class={`p-4 flex justify-center items-center rounded-full border border-slate-700 bg-slate-900/90 w-8 h-8 mr-4`}
-                on:click={rightClick}
-                bind:this={rightButton}
-            >
-                &gt;
-            </button>
-        </div>
-    {/if}
 </div>
 
 
@@ -237,5 +297,25 @@
 
     .chip-left {
         border-right: 1px solid red;
+    }
+    
+    .chip-query-container {
+        container: chips-query / inline-size;
+    }
+
+    @container chips-query (max-width: 400px) {
+        .chip-container {
+            overflow-x: auto;
+            scroll-padding-left: 12px;
+            scroll-padding-right: 12px;
+        }
+
+        .chip-left, .chip-right {
+            display: none;
+        }
+
+        * > :global(ul > li:last-child) {
+            margin-right: 12px;
+        }
     }
 </style>
