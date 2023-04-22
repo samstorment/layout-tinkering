@@ -323,7 +323,7 @@
     .chip-left.showButtonBorders {
         border-right: 1px solid red;
     }
-    
+
     .chip-query-container {
         container: chips-query / inline-size;
     }

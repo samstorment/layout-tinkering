@@ -97,10 +97,10 @@
     
         <!-- <ChipBar links={docs} client:idle /> -->
             
-        <NiceBar />
     </header>
 </div>
 
 <div id="top-scrollable" bind:this={topScrollable}>
+    <NiceBar />
     <slot />
 </div>
