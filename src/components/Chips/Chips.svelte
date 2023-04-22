@@ -29,6 +29,7 @@
     let transitionDuration = 150;
 
     let isSmall = false;
+    let isFullyVisible = false;
 
     $: showLeft = translate != 0;
 
@@ -57,12 +58,15 @@
             
             clearTimeout(resizeTimeout);
 
+            isFullyVisible = translate === 0 && lastIsVisible();
+
             if (tooSmall()) {
                 handleShrink();
                 return;
             } else {
                 handleGrow();
             }
+            
 
             resizeTimeout = setTimeout(() => {
                 adjust();
@@ -223,24 +227,24 @@
 </script>
 
 {#if container}
-<div class="p-2 border-b border-slate-700">
-    <div class="flex gap-2 max-sm:flex-col" transition:fly={{x: -300}}>
-        <span>Scroll: {container.scrollWidth}</span>
-        <span>Offset: {container.offsetWidth}</span>
-        <span>Overflow: {overflow}</span>
-        <span>Translate: {translate.toFixed(2)}</span>
-        <span>Scroll Left: {container.scrollLeft}</span>
-    </div>
-    <p class="my-1 text-slate-500 text-sm">
-        Scrollable chip bar uses <code class="bg-slate-800 p-1 rounded text-xs">transform: translateX()</code> to simulate scrolling. The bar becomes a normal scrollbar when container is 350px or less. Buttons are hidden if all content can be displayed. Tab can be used to move to focussable elements in the scroll bar.
-    </p>
-    {#if !isSmall}
-        <div class="flex items-center gap-2">
-            <label for={`show-borders-${id}`}>Show Button Borders</label>
-            <input type="checkbox" id={`show-border-${id}`} class="aspect-square w-4" bind:checked={showButtonBorders} />
+    <div class="p-2 border-b border-slate-700">
+        <div class="flex gap-2 max-sm:flex-col" transition:fly={{x: -300}}>
+            <span>Scroll: {container.scrollWidth}</span>
+            <span>Offset: {container.offsetWidth}</span>
+            <span>Overflow: {overflow}</span>
+            <span>Translate: {translate.toFixed(2)}</span>
+            <span>Scroll Left: {container.scrollLeft}</span>
         </div>
-    {/if}
-</div>
+        <p class="my-1 text-slate-500 text-sm">
+            Scrollable chip bar uses <code class="bg-slate-800 p-1 rounded text-xs">transform: translateX()</code> to simulate scrolling. The bar becomes a normal scrollbar when container is 350px or less. Buttons are hidden if all content can be displayed. Tab can be used to move to focussable elements in the scroll bar.
+        </p>
+        {#if !isSmall && !isFullyVisible}
+            <div class="flex items-center gap-2">
+                <label for={`show-borders-${id}`}>Show Button Borders</label>
+                <input type="checkbox" id={`show-borders-${id}`} class="aspect-square w-4" bind:checked={showButtonBorders} />
+            </div>
+        {/if}
+    </div>
 {/if}
 
 <div class="chip-query-container">
